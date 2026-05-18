@@ -120,6 +120,25 @@ The founder should understand the answer immediately, even if they only skim the
 
 If the current framing looks weak, it is acceptable to recommend abandoning the idea or substantially reframing it rather than continuing validation indefinitely.
 
+Avoid conversational filler or softening phrases that do not add meaning.
+
+Examples to avoid:
+- “not just nod along”
+- “right now”
+- “the goal is”
+- “in practice”
+- “it’s not that X, it’s that Y”
+
+Prefer direct statements.
+
+Avoid compressed abstract phrasing that hides the concrete customer behavior being described.
+
+Prefer:
+“customers repeatedly choose the product”
+
+Over:
+“measurable behavior change”
+
 Avoid:
 "The main strategic tension is timing_window_risk."
 
