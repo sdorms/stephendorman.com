@@ -435,8 +435,16 @@ export default function ProblemAnalyzerResults({
               <ProgressBar tone={output.overallAssessment} />
             </div>
             <p className="text-body-md text-heading">
-              {aiLoading ? 'Generating analysis...' : (aiOutput?.detail ?? output.detail)}
+              {aiLoading ? 'Generating analysis...' : (aiOutput?.detail.verdict ?? output.detail)}
             </p>
+
+            {aiOutput && (
+              <>
+                <p className="text-body-md text-heading">{aiOutput.detail.why}</p>
+
+                <p className="text-body-md text-heading">{aiOutput.detail.implication}</p>
+              </>
+            )}
           </div>
         </div>
       </section>

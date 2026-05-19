@@ -2,7 +2,11 @@ import { z } from 'zod'
 
 export const problemAnalyzerAiSchema = z.object({
   summary: z.string(),
-  detail: z.string(),
+  detail: z.object({
+    verdict: z.string(),
+    why: z.string(),
+    implication: z.string(),
+  }),
   recommendation: z.object({
     title: z.string(),
     detail: z.string(),
