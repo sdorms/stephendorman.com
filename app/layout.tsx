@@ -1,7 +1,7 @@
 import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
-import KlaroConsent from '@/components/consent/Klaro'
+import KlaroClient from '@/components/consent/KlaroClient'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -84,7 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
       <body className="bg-gray-100 pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
-          <KlaroConsent />
+          <KlaroClient />
           {process.env.NEXT_PUBLIC_GA_ID ? (
             <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
           ) : null}
