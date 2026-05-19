@@ -7,13 +7,13 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 // You might need to insert additional domains in script-src if you are using external services
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;
   style-src 'self' 'unsafe-inline';
   img-src * blob: data:;
-  media-src *.s3.amazonaws.com;
+  media-src *.s3.amazonaws.com;ç
   connect-src *;
   font-src 'self';
-  frame-src giscus.app
+  frame-src 'self';
 `
 
 const securityHeaders = [
@@ -95,7 +95,7 @@ module.exports = () => {
         },
       ]
     },
-    webpack: (config, options) => {
+    webpack: (config) => {
       config.module.rules.push({
         test: /\.svg$/,
         use: ['@svgr/webpack'],

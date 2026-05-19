@@ -1,9 +1,10 @@
 import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
-
-import { Space_Grotesk } from 'next/font/google'
+import KlaroConsent from '@/components/consent/Klaro'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { SearchProvider, SearchConfig } from 'pliny/search'
 import Header from '@/components/Header'
 import SectionContainer from '@/components/SectionContainer'
@@ -12,12 +13,6 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import { pixel } from './fonts'
-
-const space_grotesk = Space_Grotesk({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-space-grotesk',
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
@@ -66,7 +61,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang={siteMetadata.language}
       className={`${pixel.variable} ...otherFontVars`}
-      // className={`${space_grotesk.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <link rel="apple-touch-icon" sizes="76x76" href={`${basePath}/static/favicons/favicon.png`} />
@@ -90,9 +84,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
       <body className="bg-gray-100 pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
+          <KlaroConsent />
           {process.env.NEXT_PUBLIC_GA_ID ? (
             <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
           ) : null}
+          <Analytics />
+          <SpeedInsights />
           <SectionContainer>
             <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
               <Header />
