@@ -1,0 +1,88 @@
+---
+title: 'Experiment 3: Problem Analyzer'
+date: '2026-05-19'
+tags: ['shipping', 'startup ideas']
+draft: false
+summary: 'Make sure you focus on the right problems.'
+---
+
+# Introduction: Hitting the wall
+
+My first two projects felt successful. AI-assisted coding accelerated implementation, allowing me to ship working products faster than I expected. That quickly changed when I started my third experiment.
+
+This time I decided to build something more ambitious: a tool designed to evaluate the strength of startup problems and generate meaningful recommendations for founders. The challenge wasn’t generating code, it was designing a system capable of producing genuinely useful outputs and a coherent user experience.
+
+## Experiment Summary
+
+The goal of the project was to build a “Problem Analyzer”: a tool designed to help founders evaluate startup ideas by assessing the strength of the underlying problem before committing significant time to building.
+
+The tool guides users through 14 questions covering areas like customer behavior, problem intensity, market timing, and validation evidence. Based on their responses, it generates an assessment highlighting risks, strengths, and the assumptions that most need further validation.
+
+I decided to build this because many founders evaluate ideas emotionally or intuitively, but don’t systematically stress-test whether the problem itself is strong enough to support a business.
+
+Initially, I believed I could handle this through deterministic scoring and handcrafted recommendation logic. However, I discovered that interpreting nuanced startup dynamics was more difficult than I expected.
+
+## Lesson #1: Complexity Exploded Faster Than Expected
+
+Once I started building the logic, I realised that even simple scoring systems scale in complexity quickly once real-world ambiguity enters the picture.
+
+After researching which questions to include, I landed on a wizard with 14 questions and four answers each. However, this resulted in a large number of possible output permutations:
+
+4^14 = 268,435,456
+
+With over 268 million possible answer combinations, it was obvious that I couldn’t handle every scenario individually. Instead, I needed a system capable of collapsing combinations into coherent patterns and recommendations.
+
+Building a scoring system turned out to be the easy part. The harder problem was generating recommendations that actually matched the nuance of the underlying problem and felt useful. This led me to realise that rather than building a form or calculator, I was trying to build a system capable of interpreting messy startup dynamics.
+
+After building a working version and developing 10 test cases to simulate different response patterns, I abandoned the idea of generating nuanced recommendations deterministically. The effort required to handle the growing number of edge cases and contradictory signals was disproportionate. Instead, I shifted toward using AI for interpretation and synthesis, while keeping the underlying scoring and structure deterministic.
+
+The issue wasn’t the number of combinations alone. It was that similar-looking combinations often required very different interpretations.
+
+## Lesson #2: The UX Was Falling Apart
+
+AI-assisted development rapidly broke down once I began building the user interface.
+
+The value of the Problem Analyzer is driven by the quality of the results page. Users invest in the wizard in order to get meaningful, clear insights, which means the UX needs to communicate outcomes clearly and coherently.
+
+Initially, I tried generating the interface directly through prompts and iterating towards a better result. Even with relatively clear requirements, the results were sub-par and increasingly inconsistent. Some individual components were acceptable in isolation, but repeated prompts gradually made the overall experience drift towards being fragmented and incoherent. The result increasingly felt like AI slop.
+
+This exposed another tradeoff in AI-assisted development. As AI accelerates implementation, without proper care, it simultaneously accelerates the accumulation of design debt. Features become faster to generate than they are to design and integrate coherently.
+
+After several iterations, I had a technically functional prototype, but the overall experience was confusing, visually inconsistent, and difficult to use. What’s more, each iteration seemed to compound the problem further. At that point, I paused development entirely and shifted focus toward building foundational design primitives and reusable patterns before continuing.
+
+I’ll cover this process in more detail elsewhere, but it completely changed how I approached development. Instead of brute-forcing interfaces into existence through prompting alone, my workflow became:
+
+- Define product requirements and user flows
+- Design the interface in Figma
+- Write implementation details and acceptance criteria
+- Use Codex for implementation and iteration
+
+Before this shift, I was brute-forcing interfaces into existence instead of designing systems. That worked well for initial prototyping, but not for creating a coherent experience. Without shared primitives, constraints, and a clear design vision, every new prompt introduced more inconsistency into the product.
+
+Once my design system and new workflow were in place, both implementation speed and output quality improved dramatically. More importantly, the product became far easier to evolve coherently.
+
+Stepping back to build structure felt expensive in the short term, but it fundamentally changed both the quality of the product and the sustainability of the development process.
+
+## Lesson #3: Building an AI Layer vs UI Layer
+
+Once the UI was in a better place, the final step toward shipping the MVP was introducing an LLM layer to generate more nuanced recommendations for the results page.
+
+By this point, the underlying structure of the product was working well. The wizard consistently surfaced meaningful signals, risks, and strengths, but the actual recommendations still relied on placeholder copy. Whilst integrating the LLM itself was straightforward, the challenge came in making sure the model had sufficient context to generate outputs that were coherent and useful.
+
+This meant creating a flow to act as an intermediate layer, passing the user responses, results page output, and interpretation context to the LLM so that it could produce reasonable results. I found that splitting larger fields into smaller, more scoped snippets resulted in better output.
+
+The difficult part ultimately wasn’t adding AI itself. Rather, it was designing enough structure around the system for the model to produce coherent and useful outputs. After this step, the product finally started to feel like a real MVP rather than a prototype stitched together through iteration alone.
+
+## Conclusion
+
+Once the initial integration was complete, I finally deployed the first version of the tool. The product was rough in places, but for the first time it felt genuinely useful and structurally capable of improving through iteration.
+
+More importantly, the project changed how I approach AI-assisted development. Going into this experiment, I assumed implementation would be the primary challenge. However, the harder problem turned out to be designing systems, workflows, and constraints capable of managing complexity coherently.
+
+AI lowers the cost of generating features, but if you’re not careful it also increases the risk of generating inconsistency, ambiguity, and design debt. Tools like Codex don’t remove the need for thoughtful, upfront product and UX design. If anything, they make those foundational decisions even more important.
+
+Ultimately, all of this still depends on solving the right problem in the first place.
+
+You can [see the Problem Analyzer here](https://www.stephendorman.com/tools/problem-analyzer/). I’d love to hear how you get on, or any feedback on how it could improve.
+
+If you enjoyed reading, please go ahead and subscribe to my newsletter for regular updates.
