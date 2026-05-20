@@ -1,9 +1,21 @@
-import { generateText, Output } from 'ai'
+import { Output } from 'ai'
+import * as ai from 'ai'
 import { openai } from '@ai-sdk/openai'
+import { initLogger, traced, wrapAISDK } from 'braintrust'
 import { buildProblemAnalyzerAiContext } from './context'
 import { buildProblemAnalyzerUserPrompt, PROBLEM_ANALYZER_SYSTEM_PROMPT } from './prompt'
 import { problemAnalyzerAiSchema } from './schema'
 import type { AnswersMap } from '@/lib/problem-analyzer/score'
+
+const MODEL = 'gpt-5.4-nano'
+
+const logger = initLogger({
+  apiKey: process.env.BRAINTRUST_API_KEY,
+  projectName: process.env.BRAINTRUST_PROJECT_NAME ?? 'problem-analyzer',
+  asyncFlush: false,
+})
+
+const btAI = wrapAISDK(ai)
 
 type GenerateProblemAnalysisInput = {
   problemText: string
@@ -36,23 +48,47 @@ export async function generateProblemAnalysis({
 
   const startedAt = Date.now()
 
-  const result = await generateText({
-    model: openai('gpt-5.4-nano'),
+  return await traced(
+    async (span) => {
+      span.log({
+        input: {
+          problemText,
+          audienceText,
+          answerKeys: Object.keys(answers),
+          aiContextBytes: aiContextJson.length,
+          promptBytes: prompt.length,
+          validationTargetCount: aiContext.validationTargets.length,
+        },
+        metadata: {
+          feature: 'problem-analyzer',
+          promptVersion: 'problem-analyzer-v2-ai-prompt-1',
+          contextVersion: aiContext.version,
+          model: MODEL,
+        },
+      })
 
-    output: Output.object({
-      schema: problemAnalyzerAiSchema,
-    }),
+      const result = await btAI.generateText({
+        model: openai(MODEL),
+        output: Output.object({
+          schema: problemAnalyzerAiSchema,
+        }),
+        system: PROBLEM_ANALYZER_SYSTEM_PROMPT,
+        prompt,
+      })
 
-    system: PROBLEM_ANALYZER_SYSTEM_PROMPT,
+      span.log({
+        output: {
+          summary: result.output.summary,
+          recommendationTitle: result.output.recommendation?.title,
+          nextFocusTitle: result.output.nextFocus?.title,
+          validationGuidanceCount: result.output.insightValidationGuidance.length,
+        },
+      })
 
-    prompt,
-  })
+      await logger.flush()
 
-  console.log('[problem-analyzer-ai] output', {
-    durationMs: Date.now() - startedAt,
-    validationGuidanceCount: result.output.insightValidationGuidance.length,
-    output: result.output,
-  })
-
-  return result.output
+      return result.output
+    },
+    { name: 'problem-analyzer.generateProblemAnalysis' }
+  )
 }
