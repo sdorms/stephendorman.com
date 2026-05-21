@@ -25,6 +25,7 @@ const config = [
       '.contentlayer/**',
       'dist/**',
       'public/**',
+      '.bt/**',
     ],
   },
   // 1) Non-type-aware defaults (safe for JS/config/etc)
