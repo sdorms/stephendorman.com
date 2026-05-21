@@ -4,8 +4,10 @@ import { openai } from '@ai-sdk/openai'
 import { initLogger, traced, wrapAISDK } from 'braintrust'
 import { buildProblemAnalyzerAiContext } from './context'
 import { buildProblemAnalyzerUserPrompt, PROBLEM_ANALYZER_SYSTEM_PROMPT } from './prompt'
+
 import { problemAnalyzerAiSchema } from './schema'
 import type { AnswersMap } from '@/lib/problem-analyzer/score'
+import { evaluateSchemaValidity } from './evals/deterministic/schemaValidity'
 
 const MODEL = 'gpt-5.4-nano'
 
@@ -75,6 +77,10 @@ export async function generateProblemAnalysis({
         system: PROBLEM_ANALYZER_SYSTEM_PROMPT,
         prompt,
       })
+
+      const schemaEval = evaluateSchemaValidity(result.output)
+
+      console.log('[schema-eval]', schemaEval)
 
       span.log({
         output: {
