@@ -61,6 +61,24 @@ If the current logic appears directionally correct, it is acceptable for missing
 
 Do not invent critique purely to appear insightful.
 
+Return at most 2 missingNuance items.
+
+Return at most 3 suggestedLogicImprovements items. 
+
+Only include genuinely high-leverage observations.
+
+Do not repeat the same critique across multiple fields unless materially adding new insight.
+
+Focus on critique of the evaluation framework itself, not alternative startup ideas or adjacent opportunities.
+
+rationale:
+- 2 sentences maximum
+- prioritize the single most important strengths and weaknesses
+- Avoid exhaustive review of every section.
+- Do not summarize the entire report.
+- Prefer high-information-density critique.
+- Focus on what materially affects founder decision quality.
+
 missingNuance:
 - Identify strategic nuance the current evaluation may underweight, oversimplify, or fail to distinguish clearly enough.
 - Focus on nuance that could materially change the recommendation, interpretation, or confidence.

@@ -19,7 +19,7 @@ export async function judgeOutput({
   output: unknown
 }) {
   const result = await generateObject({
-    model: openai('gpt-5.5-mini'),
+    model: openai('gpt-5.4-mini'),
     schema: judgeSchema,
     system: `
 You are evaluating AI-generated product analysis for a founder-facing problem validation tool.

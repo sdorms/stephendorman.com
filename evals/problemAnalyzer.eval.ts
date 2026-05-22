@@ -12,8 +12,12 @@ import { evaluateGroundedTone } from '@/lib/problem-analyzer/v2/ai/evals/llm-dri
 import { evaluateFounderUsefulness } from '@/lib/problem-analyzer/v2/ai/evals/llm-driven/founderUsefulness'
 import { evaluateStrategicJudgmentQuality } from '@/lib/problem-analyzer/v2/ai/evals/llm-driven/strategicJudgementQuality'
 
+// Note, to run use: EXPERIMENT_NAME=prompt-v8 bt eval evals/problemAnalyzer.eval.ts
+
+const EXPERIMENT_NAME = process.env.EXPERIMENT_NAME ?? 'evals-v1'
+
 Eval('Problem Analyzer AI', {
-  experimentName: 'schema-validity-v1',
+  experimentName: EXPERIMENT_NAME,
 
   data: problemAnalyzerFixtures,
 
