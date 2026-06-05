@@ -20,7 +20,8 @@ export async function evaluateStrategicJudgmentQuality({
   output: unknown
 }) {
   const result = await generateObject({
-    model: openai('gpt-5.5'),
+    model: openai('gpt-5.4-mini'),
+    maxOutputTokens: 1500,
     schema: strategicJudgmentSchema,
     system: `
 You are an expert startup advisor evaluating the strategic quality of a founder-facing problem analysis report.
@@ -128,7 +129,7 @@ ${JSON.stringify(output, null, 2)}
 Return your evaluation.
 `,
   })
-
+  console.log(result.usage)
   return {
     name: 'strategic_judgment_quality',
     score: result.object.score / 5,
